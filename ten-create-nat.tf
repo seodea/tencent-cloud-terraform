@@ -3,6 +3,7 @@ resource "tencentcloud_eip" "nat_eip" {
     name = "nat_eip"
 }
 
+# Create NAT
 resource "tencentcloud_nat_gateway" "nat" {
     name             = "tf-nat"
     vpc_id           = tencentcloud_vpc.tf_vpc.id

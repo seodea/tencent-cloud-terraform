@@ -11,13 +11,13 @@ resource "tencentcloud_vpc" "tf_vpc" {
   name       = "tf-tmp-vpc"
   cidr_block = "192.168.0.0/16"
 
-  tags = {
-      test = var.tags
-  }
+  #tags = {
+  #    test = var.tags
+  #}
 }
 
 resource "tencentcloud_subnet" "tf_subnet" {
-  vpc_id            = tencentcloud_vpc.main.id
+  vpc_id            = tencentcloud_vpc.tf_vpc.id
   name              = "terraform test subnet"
   cidr_block        = "192.168.1.0/24"
 

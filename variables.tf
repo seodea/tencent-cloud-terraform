@@ -24,7 +24,6 @@ variable "prefix" {
     default = "my"
 }
 
-
 variable "tags" {
   description = "A map of the tags to use for the resources that are deployed"
   type        = "map"
