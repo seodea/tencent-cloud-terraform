@@ -59,6 +59,7 @@ variable "instance_name" {
   default = "terraform-testing"
 }
 
+# ECS OS info
 variable "os_name" {
   default = "centos"
 }
