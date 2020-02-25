@@ -14,3 +14,4 @@ resource "tencentcloud_nat_gateway" "nat" {
     ] # 어떤 상태가 나오는지 확인해보
 }
 
+#

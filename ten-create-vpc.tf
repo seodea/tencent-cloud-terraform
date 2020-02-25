@@ -47,3 +47,4 @@ resource "tencentcloud_route_table_entry" "internet" {
   depends_on = [tencentcloud_nat_gateway.nat] 
   description            = "nat-route-table-entry"
 }
+#
