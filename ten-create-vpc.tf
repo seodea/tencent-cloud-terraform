@@ -9,7 +9,7 @@ provider "tencentcloud" {
 
 resource "tencentcloud_vpc" "tf_vpc" {
   name       = "tf-tmp-vpc"
-  cidr_block = "10.0.0.0/16"
+  cidr_block = "192.168.0.0/16"
 
   tags = {
       test = var.tags
@@ -17,10 +17,15 @@ resource "tencentcloud_vpc" "tf_vpc" {
 }
 
 resource "tencentcloud_subnet" "tf_subnet" {
-  name              = "tf-tmp-subnet"
-  vpc_id            = tencentcloud_vpc.tf_vpc.id
-  cidr_block        = "10.0.1.0/24"
+  vpc_id            = tencentcloud_vpc.main.id
+  name              = "terraform test subnet"
+  cidr_block        = "192.168.1.0/24"
+
+  #name              = "tf-tmp-subnet"
+  #vpc_id            = tencentcloud_vpc.tf_vpc.id
+  #cidr_block        = "10.0.1.0/24"
   # is_multicast      = false #default is True
+  
   availability_zone = var.availability_zone
   route_table_id    = tencentcloud_route_table.tf_routetable.id
 
@@ -33,7 +38,7 @@ resource "tencentcloud_route_table" "tf_routetable" {
   name   = "tf-rt"
 }
 
-resource "tencentcloud_route_table_entry" "instance" {
+resource "tencentcloud_route_table_entry" "internet" {
   route_table_id         = tencentcloud_route_table.tf_routetable.id
   destination_cidr_block = "0.0.0.0/0"
   next_type              = "NAT"
