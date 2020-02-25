@@ -1,14 +1,65 @@
+provider "tencentcloud" {
+  secret_id  = var.secret_id
+  secret_key = var.secret_key
+  region     = var.region
+}
 
-#provider "tencentcloud" {
-#  secret_id  = var.secret_id
-#  secret_key = var.secret_key
-#  region     = var.region
-#}
-
+data "tencentcloud_availability_zones" "my_favorate_zones" {}
 
 data "tencentcloud_images" "my_favorate_image" {
   image_type = ["PUBLIC_IMAGE"]
   os_name    = "centos"
+}
+
+# Create VPC and Subnet
+resource "tencentcloud_vpc" "main" {
+  name       = "terraform test"
+  cidr_block = "10.6.0.0/16"
+}
+
+resource "tencentcloud_subnet" "main_subnet" {
+  vpc_id            = tencentcloud_vpc.main.id
+  name              = "terraform test subnet"
+  cidr_block        = "10.6.7.0/24"
+  availability_zone = var.availability_zone
+}
+
+# Create EIP
+resource "tencentcloud_eip" "eip_dev_dnat" {
+  name = "terraform_test"
+}
+
+resource "tencentcloud_eip" "eip_test_dnat" {
+  name = "terraform_test"
+}
+
+# Create NAT Gateway
+resource "tencentcloud_nat_gateway" "my_nat" {
+  vpc_id         = tencentcloud_vpc.main.id
+  name           = "terraform test"
+  max_concurrent = 1000000
+  bandwidth      = 100
+
+  assigned_eip_set = [
+    tencentcloud_eip.eip_dev_dnat.public_ip,
+  ]
+}
+
+# Create Route Tables
+
+resource "tencentcloud_route_table" "tf_routetable" {
+  vpc_id = tencentcloud_vpc.main.id
+  name   = "tf-rt"
+}
+
+resource "tencentcloud_route_table_entry" "internet" {
+  route_table_id         = tencentcloud_route_table.tf_routetable.id
+  destination_cidr_block = "0.0.0.0/0"
+  next_type              = "NAT"
+  next_hub               = tencentcloud_nat_gateway.my_nat.id
+  
+  depends_on = [tencentcloud_nat_gateway.my_nat] 
+  description            = "nat-route-table-entry"
 }
 
 data "tencentcloud_instance_types" "my_favorate_instance_types" {
@@ -21,10 +72,16 @@ data "tencentcloud_instance_types" "my_favorate_instance_types" {
   memory_size    = 1
 }
 
-data "tencentcloud_availability_zones" "my_favorate_zones" {
-
-
-}
+# Create CVM
+#resource "tencentcloud_instance" "foo" {
+#  availability_zone = var.availability_zone
+#  image_id          = data.tencentcloud_images.my_favorate_image.images.0.image_id
+#  instance_type     = data.tencentcloud_instance_types.my_favorate_instance_types.instance_types.0.instance_type
+#  vpc_id            = tencentcloud_vpc.main.id
+#  subnet_id         = tencentcloud_subnet.main_subnet.id
+#  system_disk_type  = "CLOUD_PREMIUM"
+#  password          = "Tencent-test"
+#}
 
 # Create a web server without public ip 
 resource "tencentcloud_instance" "web" {
@@ -81,6 +138,5 @@ resource "tencentcloud_security_group_rule" "icmp" {
   type              = "ingress"
   cidr_ip           = "0.0.0.0/0"
   ip_protocol       = "icmp"
-  #port_range        = ""
   policy            = "accept"
 }
