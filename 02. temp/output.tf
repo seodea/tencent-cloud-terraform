@@ -8,7 +8,7 @@ output "zone" {
 }
 
 output "nat_eip"{
-  value = tencentcloud_eip.my_nat.public_ip
+  value = tencentcloud_eip.eip_dev_dnat.public_ip
 
 }
 
