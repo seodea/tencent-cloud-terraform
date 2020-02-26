@@ -76,3 +76,6 @@ variable "count_format" {
 }
 
 # RDS info
+variable "rds_name" {
+    deafalt = "tf-rds"  
+}
