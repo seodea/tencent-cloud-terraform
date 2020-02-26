@@ -91,8 +91,8 @@ resource "tencentcloud_instance" "web" {
   instance_type              = data.tencentcloud_instance_types.my_favorate_instance_types.instance_types.0.instance_type
   system_disk_type           = "CLOUD_PREMIUM"
   hostname                   = "tf-temp-web"
-  vpc_id                     = tencentcloud_vpc.tf_vpc.id
-  subnet_id                  = tencentcloud_subnet.tf_subnet.id
+  vpc_id                     = tencentcloud_vpc.main.id
+  subnet_id                  = tencentcloud_subnet.main_subnet.id
   internet_max_bandwidth_out = 100 # 0 - 100
   count                      = 1
   security_groups            = [tencentcloud_security_group.web_sg.id]
