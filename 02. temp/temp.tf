@@ -142,10 +142,10 @@ resource "tencentcloud_security_group_rule" "icmp" {
   policy            = "accept"
 }
 
-resource "tencentcloud_security_group_rule" "icmp" {
+resource "tencentcloud_security_group_rule" "egrees_any" {
   security_group_id = tencentcloud_security_group.web_sg.id
   type              = "egress"
   cidr_ip           = "0.0.0.0/0"
-  ip_protocol       = "all"
+  #ip_protocol       = "" #default is All
   policy            = "accept"
 }
