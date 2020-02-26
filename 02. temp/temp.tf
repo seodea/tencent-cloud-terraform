@@ -22,6 +22,10 @@ resource "tencentcloud_subnet" "main_subnet" {
   name              = "terraform test subnet"
   cidr_block        = "10.6.7.0/24"
   availability_zone = var.availability_zone
+  route_table_id    = tencentcloud_route_table.tf_routetable.id
+
+  tags = var.tags
+
 }
 
 # Create EIP
@@ -29,9 +33,6 @@ resource "tencentcloud_eip" "eip_dev_dnat" {
   name = "terraform_test"
 }
 
-resource "tencentcloud_eip" "eip_test_dnat" {
-  name = "terraform_test"
-}
 
 # Create NAT Gateway
 resource "tencentcloud_nat_gateway" "my_nat" {
@@ -141,3 +142,10 @@ resource "tencentcloud_security_group_rule" "icmp" {
   policy            = "accept"
 }
 
+resource "tencentcloud_security_group_rule" "icmp" {
+  security_group_id = tencentcloud_security_group.web_sg.id
+  type              = "egress"
+  cidr_ip           = "0.0.0.0/0"
+  ip_protocol       = "all"
+  policy            = "accept"
+}
