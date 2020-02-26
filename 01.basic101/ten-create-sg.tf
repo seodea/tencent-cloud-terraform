@@ -43,7 +43,7 @@ resource "tencentcloud_security_group" "db_sg" {
   description = "make it accessible for both production and stage ports"
 }
 
-resource "tencentcloud_security_group_rule" "web" {
+resource "tencentcloud_security_group_rule" "rds" {
   security_group_id = tencentcloud_security_group.db_sg.id
   type              = "ingress"
   cidr_ip           = tencentcloud_subnet.tf_service_subnet.cidr_block
@@ -51,7 +51,6 @@ resource "tencentcloud_security_group_rule" "web" {
   port_range        = "3306"
   policy            = "accept"
 }
-
 
 resource "tencentcloud_security_group_rule" "egrees_any" {
   security_group_id = tencentcloud_security_group.db_sg.id

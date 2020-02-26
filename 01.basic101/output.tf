@@ -16,3 +16,6 @@ output "route_table"{
 }
 
 # RDS info 
+output "mysql_internet" {
+  value = tencentcloud_mysql_instance.tf_mysql.internet_service
+}

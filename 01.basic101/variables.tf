@@ -77,7 +77,7 @@ variable "count_format" {
 
 # RDS info
 variable "rds_name" {
-  deafalt = "tf-rds"  
+  default = "tf-rds"  
 }
 
 # MYSQL info

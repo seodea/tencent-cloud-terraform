@@ -2,16 +2,16 @@
 
 resource "tencentcloud_mysql_instance" "tf_mysql" {
   internet_service = 1
-  engine_version   = "5.7"
+  #engin version
+  engine_version    = var.dbengine
 
-  root_password     = "********"
+  root_password     = "P@ssw0rd"
   slave_deploy_mode = 0
   first_slave_zone  = "ap-seoul-1"
   second_slave_zone = "ap-seoul-1"
   slave_sync_mode   = 1
   availability_zone = "ap-seoul-1"
-  #engin version
-  engine_version    = var.dbengine
+  
   instance_name     = "tf-Mysql"
   mem_size          = 1000 # 1000MB부터 - x2 till 488000MB
   volume_size       = 25
@@ -19,8 +19,6 @@ resource "tencentcloud_mysql_instance" "tf_mysql" {
   subnet_id         = tencentcloud_subnet.tf_db_subnet.id
   intranet_port     = 3306
   security_groups   = tencentcloud_security_group.db_sg.id
-
-  internet_service  = "1"
 
   tags = {
     name = "test"
