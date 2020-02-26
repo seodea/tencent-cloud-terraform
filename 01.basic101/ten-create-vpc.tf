@@ -16,12 +16,22 @@ resource "tencentcloud_vpc" "tf_vpc" {
   #}
 }
 
-resource "tencentcloud_subnet" "tf_subnet" {
+resource "tencentcloud_subnet" "tf_service_subnet" {
   vpc_id            = tencentcloud_vpc.tf_vpc.id
-  name              = "terraform test subnet"
+  name              = "tf_test_service_subnet"
   cidr_block        = "192.168.1.0/24"
   availability_zone = var.availability_zone
   route_table_id    = tencentcloud_route_table.tf_routetable.id
+
+  tags = var.tags
+
+}
+
+resource "tencentcloud_subnet" "tf_db_subnet" {
+  vpc_id            = tencentcloud_vpc.tf_vpc.id
+  name              = "tf_test_db_subnet"
+  cidr_block        = "192.168.2.0/24"
+  availability_zone = var.availability_zone
 
   tags = var.tags
 

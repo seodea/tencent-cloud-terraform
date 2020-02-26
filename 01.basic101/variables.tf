@@ -77,7 +77,12 @@ variable "count_format" {
 
 # RDS info
 variable "rds_name" {
-    deafalt = "tf-rds"  
+  deafalt = "tf-rds"  
 }
 
-# RDS SG info 
+# MYSQL info
+
+# MY SQL default engine is 5.7 (selected 5.5, 5.6)
+variable "dbengine" {
+  default = "5.6"
+}

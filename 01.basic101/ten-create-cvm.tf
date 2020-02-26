@@ -14,8 +14,6 @@ data "tencentcloud_instance_types" "my_favorate_instance_types" {
 }
 
 data "tencentcloud_availability_zones" "my_favorate_zones" {
-
-
 }
 
 # Create a web server without public ip 
@@ -27,7 +25,7 @@ resource "tencentcloud_instance" "web" {
   system_disk_type           = "CLOUD_PREMIUM"
   hostname                   = "tf-temp-web"
   vpc_id                     = tencentcloud_vpc.tf_vpc.id
-  subnet_id                  = tencentcloud_subnet.tf_subnet.id
+  subnet_id                  = tencentcloud_subnet.tf_service_subnet.id
   internet_max_bandwidth_out = 100 # 0 - 100
   count                      = 1
   security_groups            = [tencentcloud_security_group.web_sg.id]
@@ -44,41 +42,3 @@ resource "tencentcloud_instance" "web" {
   }
 }
 
-# Create security group with 4 rules
-resource "tencentcloud_security_group" "web_sg" {
-  name        = "web-sg"
-  description = "make it accessible for both production and stage ports"
-}
-
-resource "tencentcloud_security_group_rule" "web" {
-  security_group_id = tencentcloud_security_group.web_sg.id
-  type              = "ingress"
-  cidr_ip           = "0.0.0.0/0"
-  ip_protocol       = "tcp"
-  port_range        = "80"
-  policy            = "accept"
-}
-
-resource "tencentcloud_security_group_rule" "ssh" {
-  security_group_id = tencentcloud_security_group.web_sg.id
-  type              = "ingress"
-  cidr_ip           = "0.0.0.0/0"
-  ip_protocol       = "tcp"
-  port_range        = "22"
-  policy            = "accept"
-}
-
-resource "tencentcloud_security_group_rule" "icmp" {
-  security_group_id = tencentcloud_security_group.web_sg.id
-  type              = "ingress"
-  cidr_ip           = "0.0.0.0/0"
-  ip_protocol       = "icmp"
-  policy            = "accept"
-}
-
-resource "tencentcloud_security_group_rule" "egrees_any" {
-  security_group_id = tencentcloud_security_group.web_sg.id
-  type              = "egress"
-  cidr_ip           = "0.0.0.0/0"
-  policy            = "accept"
-}
