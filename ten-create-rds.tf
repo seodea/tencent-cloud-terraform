@@ -18,8 +18,7 @@ resource "tencentcloud_mysql_instance" "tf_mysql" {
   vpc_id            = tencentcloud_vpc.tf_vpc.id
   subnet_id         = tencentcloud_subnet.tf_db_subnet.id
   intranet_port     = 3306
-  security_groups   = [tencentcloud_security_group.db_sg.id,
-    ]
+  security_groups   = [tencentcloud_security_group.db_sg.id,]
 
   tags = {
     method = "test"
@@ -42,30 +41,3 @@ resource "tencentcloud_mysql_account" "mysql_account" {
   description = "My test account"
 }
 
-# Create privileges
-resource "tencentcloud_mysql_privilege" "privilege" {
-  mysql_id     = tencentcloud_mysql_instance.tf_mysql.id
-  account_name = tencentcloud_mysql_account.mysql_account.name
-  
-  # All permission
-  global       = ["PROCESS","SHOW DATABASES","SELECT", "INSERT", "UPDATE", "DELETE", "CREATE", "DROP", "REFERENCES", "INDEX", "ALTER", "CREATE TEMPORARY TABLES", "LOCK TABLES","EXECUTE", "CREATE VIEW", "SHOW VIEW", "CREATE ROUTINE", "ALTER ROUTINE", "EVENT", "TRIGGER"]
-  
-  # Create Database (this info is not required)
-  database {
-    privileges    = ["SELECT", "INSERT", "UPDATE", "DELETE", "CREATE"]
-    database_name = "sys"
-  }
-
-  table {
-    privileges    = ["SELECT", "INSERT", "UPDATE", "DELETE", "CREATE"]
-    database_name = "mysql"
-    table_name    = "slow_log"
-  }
-
-  column {
-    privileges    = ["SELECT", "INSERT", "UPDATE", "REFERENCES"]
-    database_name = "mysql"
-    table_name    = "user"
-    column_name   = "host"
-  }
-}
