@@ -14,3 +14,5 @@ output "nat_eip"{
 output "route_table"{
   value = tencentcloud_route_table.tf_routetable.id
 }
+
+# RDS info 
