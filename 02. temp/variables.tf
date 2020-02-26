@@ -1,4 +1,4 @@
-# Tencent Cloud variables
+# Tencent Cloud variables.
 variable "secret_id" {
   default = "Your Access ID"
 }
