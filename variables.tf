@@ -18,7 +18,6 @@ variable "availability_zone" {
 }
 
 # Name policy
-
 variable "prefix" {
     type = "string"
     default = "my"
@@ -33,16 +32,23 @@ variable "tags" {
     web = "tf-web"
     dev = "tf-dev"
  }
-
 }
-
 # VPC Info
 variable "short_name" {
   default = "tf-tmp-vpc"
 }
 
 variable "vpc_cidr" {
-  default = "10.0.0.0/16"
+  default = "192.168.0.0/16"
+}
+
+# VSwitch Info
+variable "web_cidr" {
+  default = "192.168.1.0/24"
+}
+
+variable "db_cidr" {
+  default = "192.168.2.0/24"
 }
 
 # ECS insance variables 
@@ -59,20 +65,9 @@ variable "instance_name" {
 }
 
 # ECS OS info
-variable "os_name" {
-  default = "centos"
-}
 
-variable "image_name_regex" {
-  default = "^CentOS\\s+7\\.3\\s+64\\w*"
-}
-
-variable "cvm_password" {
+variable "password" {
   default = "Tencent-test"
-}
-
-variable "count_format" {
-  default = "%02d"
 }
 
 # RDS info

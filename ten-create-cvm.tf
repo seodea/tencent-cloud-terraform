@@ -29,7 +29,7 @@ resource "tencentcloud_instance" "web" {
   internet_max_bandwidth_out = 100 # 0 - 100
   count                      = 1
   security_groups            = [tencentcloud_security_group.web_sg.id]
-  password                   = var.cvm_password
+  password                   = var.password
   #allocate_public_ip        = [tencentcloud_eip.ecs_eip.public_id]
   
   #data_disks {

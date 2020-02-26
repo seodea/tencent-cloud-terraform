@@ -7,10 +7,10 @@ resource "tencentcloud_mysql_instance" "tf_mysql" {
 
   root_password     = "P@ssw0rd"
   slave_deploy_mode = 0
-  first_slave_zone  = "ap-seoul-1"
-  second_slave_zone = "ap-seoul-1"
+  first_slave_zone  = var.availability_zone
+  second_slave_zone = var.availability_zone
   slave_sync_mode   = 1
-  availability_zone = "ap-seoul-1"
+  availability_zone = var.availability_zone
   
   instance_name     = "tf-Mysql"
   mem_size          = 1000 # 1000MB부터 - x2 till 488000MB
@@ -18,10 +18,11 @@ resource "tencentcloud_mysql_instance" "tf_mysql" {
   vpc_id            = tencentcloud_vpc.tf_vpc.id
   subnet_id         = tencentcloud_subnet.tf_db_subnet.id
   intranet_port     = 3306
-  security_groups   = tencentcloud_security_group.db_sg.id
+  security_groups   = [tencentcloud_security_group.db_sg.id,
+    ]
 
   tags = {
-    name = "test"
+    method = "test"
   }
 
   parameters = {
@@ -35,9 +36,9 @@ data "tencentcloud_mysql_parameter_list" "mysql" {
 
 # Create Account
 resource "tencentcloud_mysql_account" "mysql_account" {
-  mysql_id    = "my-test-database"
+  mysql_id    = tencentcloud_mysql_instance.tf_mysql.id
   name        = "mysqladmin"
-  password    = "Tencent-test"
+  password    = var.password
   description = "My test account"
 }
 
@@ -45,7 +46,9 @@ resource "tencentcloud_mysql_account" "mysql_account" {
 resource "tencentcloud_mysql_privilege" "privilege" {
   mysql_id     = tencentcloud_mysql_instance.tf_mysql.id
   account_name = tencentcloud_mysql_account.mysql_account.name
-  global       = ["TRIGGER"]
+  
+  # All permission
+  global       = ["PROCESS","SHOW DATABASES","SELECT", "INSERT", "UPDATE", "DELETE", "CREATE", "DROP", "REFERENCES", "INDEX", "ALTER", "CREATE TEMPORARY TABLES", "LOCK TABLES","EXECUTE", "CREATE VIEW", "SHOW VIEW", "CREATE ROUTINE", "ALTER ROUTINE", "EVENT", "TRIGGER"]
   
   database {
     privileges    = ["SELECT", "INSERT", "UPDATE", "DELETE", "CREATE"]

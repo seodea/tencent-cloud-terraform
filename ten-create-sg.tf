@@ -30,7 +30,7 @@ resource "tencentcloud_security_group_rule" "icmp" {
   policy            = "accept"
 }
 
-resource "tencentcloud_security_group_rule" "egrees_any" {
+resource "tencentcloud_security_group_rule" "web_egrees_any" {
   security_group_id = tencentcloud_security_group.web_sg.id
   type              = "egress"
   cidr_ip           = "0.0.0.0/0"
@@ -52,7 +52,7 @@ resource "tencentcloud_security_group_rule" "rds" {
   policy            = "accept"
 }
 
-resource "tencentcloud_security_group_rule" "egrees_any" {
+resource "tencentcloud_security_group_rule" "db_egrees_any" {
   security_group_id = tencentcloud_security_group.db_sg.id
   type              = "egress"
   cidr_ip           = "0.0.0.0/0"

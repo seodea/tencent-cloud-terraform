@@ -8,7 +8,7 @@ output "zone" {
 }
 
 output "nat_eip"{
-  value = tencentcloud_eip.eip_dev_dnat.public_ip
+  value = tencentcloud_eip.nat_eip.public_ip
 }
 
 output "route_table"{
@@ -16,6 +16,10 @@ output "route_table"{
 }
 
 # RDS info 
-output "mysql_internet" {
-  value = tencentcloud_mysql_instance.tf_mysql.internet_service
+output "mysql_internet_host" {
+  value = tencentcloud_mysql_instance.tf_mysql.internet_host
+}
+
+output "mysql_internet_port" {
+  value = tencentcloud_mysql_instance.tf_mysql.internet_port
 }

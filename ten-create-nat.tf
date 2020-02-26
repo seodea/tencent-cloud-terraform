@@ -11,7 +11,7 @@ resource "tencentcloud_nat_gateway" "nat" {
     max_concurrent   = 1000000
     assigned_eip_set = [
         tencentcloud_eip.nat_eip.public_ip,
-    ] # 어떤 상태가 나오는지 확인해보
+    ]
 }
 
 #
