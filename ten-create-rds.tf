@@ -50,6 +50,7 @@ resource "tencentcloud_mysql_privilege" "privilege" {
   # All permission
   global       = ["PROCESS","SHOW DATABASES","SELECT", "INSERT", "UPDATE", "DELETE", "CREATE", "DROP", "REFERENCES", "INDEX", "ALTER", "CREATE TEMPORARY TABLES", "LOCK TABLES","EXECUTE", "CREATE VIEW", "SHOW VIEW", "CREATE ROUTINE", "ALTER ROUTINE", "EVENT", "TRIGGER"]
   
+  # Create Database (this info is not required)
   database {
     privileges    = ["SELECT", "INSERT", "UPDATE", "DELETE", "CREATE"]
     database_name = "sys"
