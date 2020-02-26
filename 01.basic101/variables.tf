@@ -45,7 +45,7 @@ variable "vpc_cidr" {
   default = "10.0.0.0/16"
 }
 
-# ECS insance variables
+# ECS insance variables 
 variable "image_id" {
   default = ""
 }
@@ -74,3 +74,5 @@ variable "cvm_password" {
 variable "count_format" {
   default = "%02d"
 }
+
+# RDS info
