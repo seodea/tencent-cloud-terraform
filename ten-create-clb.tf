@@ -35,7 +35,8 @@ resource "tencentcloud_clb_attachment" "web_cvm_attach" {
   #rule_id     = "loc-4xxr2cy7"
 
   targets {
-    instance_id = tencentcloud_instance.web.id
+    # IF you have only the one CVM, You have to put on the 0 between web and id
+    instance_id = tencentcloud_instance.web[0].id
     port        = 80
     weight      = 10
   }
